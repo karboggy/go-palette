@@ -4,18 +4,25 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/cascax/colorthief-go"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		log.Fatalf("Usage: %s <image-path>", os.Args[0])
+	if len(os.Args) < 3 {
+		log.Fatalf("Usage: %s <image-path> <color-count>", os.Args[0])
 	}
 	imagePath := os.Args[1]
+	colorCount, err := strconv.Atoi(os.Args[2])
+
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
 
 	// generate palette
-	palette, err := colorthief.GetPaletteFromFile(imagePath, 16)
+	palette, err := colorthief.GetPaletteFromFile(imagePath, colorCount)
 	if err != nil {
 		log.Fatal(err)
 	}
